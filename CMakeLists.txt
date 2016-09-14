@@ -27,6 +27,19 @@ endif()
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake)
 set(CMAKE_INCLUDE_PATH ${CMAKE_INCLUDE_PATH} ${CMAKE_SOURCE_DIR}/cmake)
 
+# set c++11 Standard
+if(CMAKE_VERSION VERSION_LESS "3.1")
+  if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    set(CMAKE_CXX_FLAGS "--std=gnu++11 ${CMAKE_CXX_FLAGS}")
+  elseif(CMAKE_COMPILER_IS_GNUCC AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS 4.7)
+    set(CMAKE_CXX_FLAGS "-std=c++0x ${CMAKE_CXX_FLAGS}")
+  else()
+    set(CMAKE_CXX_FLAGS "-std=c++11 ${CMAKE_CXX_FLAGS}")
+  endif()
+else()
+  set(CMAKE_CXX_STANDARD 11)
+endif()
+
 # Include required cmake files
 include(LibSourceyUtilities REQUIRED)
 include(LibSourceyIncludes REQUIRED)
@@ -128,9 +141,9 @@ if(APPLE)
   if(IOS)
     find_package(Threads REQUIRED)
   endif()
-  if(!IOS)
-    set(CMAKE_CXX_FLAGS "-std=c++0x ${CMAKE_CXX_FLAGS}")
-  endif()
+  # if(!IOS)
+  #  set(CMAKE_CXX_FLAGS "-std=c++0x ${CMAKE_CXX_FLAGS}")
+  # endif()
 endif()
 
 # ----------------------------------------------------------------------------
